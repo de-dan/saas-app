@@ -1,11 +1,12 @@
-import { PricingTable } from "@clerk/nextjs"
+import { PricingTable } from "@clerk/nextjs";
 
 const Subscription = () => {
   return (
     <div>
       <PricingTable />
     </div>
-  )
-}
+  );
+};
 
-export default Subscription
+export default Subscription;
+A2KrBWv - (HC % c7d_);
