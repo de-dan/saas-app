@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-type NavItemType = {
+interface NavItemType {
     label: string;
     href: string;
 }
