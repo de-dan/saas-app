@@ -33,8 +33,8 @@ const CompanionsList: React.FC<CompanionsListProps> = ({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {companions.map(({ id, subject, name, topic, duration }) => (
-            <TableRow key={id}>
+          {companions.map(({ id, subject, name, topic, duration }, idx) => (
+            <TableRow key={idx}>
               <TableCell>
                 <Link href={`/companions/${id}`}>
                   <div className="flex items-center gap-2">
