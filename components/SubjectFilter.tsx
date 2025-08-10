@@ -39,13 +39,16 @@ const SubjectFilter = () => {
   }, [searchQuery, router, searchParams, pathname]);
 
   return (
-    <Select value={searchQuery} onValueChange={(e) => {
-      if (e === 'all') {
-        setSearchQuery("");
-      } else {
-        setSearchQuery(e);
-      }
-    }} >
+    <Select
+      value={searchQuery}
+      onValueChange={(e) => {
+        if (e === "all") {
+          setSearchQuery("");
+        } else {
+          setSearchQuery(e);
+        }
+      }}
+    >
       <SelectTrigger className="input">
         <SelectValue placeholder="Select subject" />
       </SelectTrigger>
