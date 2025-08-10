@@ -38,7 +38,7 @@ const CompanionComponent: React.FC<CompanionComponentProps> = ({
   const [callStatus, setCallStatus] = useState(CallStatus.INACTIVE);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
-  const [messages, setMessages] = useState<SavedMessage[]>([])
+  const [messages, setMessages] = useState<SavedMessage[]>([]);
   const lottieRef = useRef<LottieRefCurrentProps>(null);
 
   const toggleMicrophone = () => {
@@ -48,23 +48,25 @@ const CompanionComponent: React.FC<CompanionComponentProps> = ({
   };
 
   const handleCall = async () => {
-    setCallStatus(CallStatus.CONNECTING)
+    setCallStatus(CallStatus.CONNECTING);
 
     const assistantOverrides = {
       variableValues: {
-        subject, topic, style
+        subject,
+        topic,
+        style,
       },
-      clientMessages: ['transcript'],
-      serverMessages: []
-    }
+      clientMessages: ["transcript"],
+      serverMessages: [],
+    };
 
     //@ts-expect-error vapi type error (vapi-ai/web v2.3.8)
-    vapi.start(configureAssistant(voice, style), assistantOverrides)
-  }
+    vapi.start(configureAssistant(voice, style), assistantOverrides);
+  };
   const handleDisconnect = () => {
     setCallStatus(CallStatus.FINISHED);
-    vapi.stop()
-  }
+    vapi.stop();
+  };
 
   const callStatusText = useMemo(() => {
     switch (callStatus) {
@@ -88,13 +90,13 @@ const CompanionComponent: React.FC<CompanionComponentProps> = ({
   useEffect(() => {
     const onCallStart = () => setCallStatus(CallStatus.ACTIVE);
     const onCallEnd = () => {
-      setCallStatus(CallStatus.FINISHED)
+      setCallStatus(CallStatus.FINISHED);
       addToSessionHistory(companionId);
     };
     const onMessage = (message: Message) => {
-      if (message.type === 'transcript' && message.transcriptType === 'final') {
-        const newMessage = { role: message.role, content: message.transcript }
-        setMessages((prev) => [newMessage, ...prev])
+      if (message.type === "transcript" && message.transcriptType === "final") {
+        const newMessage = { role: message.role, content: message.transcript };
+        setMessages((prev) => [newMessage, ...prev]);
       }
     };
     const onError = (error: Error) => console.log("Error", error);
@@ -170,7 +172,11 @@ const CompanionComponent: React.FC<CompanionComponentProps> = ({
             />
             <p className="font-bold text-2xl">{userName}</p>
           </div>
-          <button className="btn-mic" onClick={toggleMicrophone} disabled={callStatus !== CallStatus.ACTIVE}>
+          <button
+            className="btn-mic"
+            onClick={toggleMicrophone}
+            disabled={callStatus !== CallStatus.ACTIVE}
+          >
             <Image
               src={`/icons/mic-${isMuted ? "off" : "on"}.svg`}
               alt="mic"
@@ -187,7 +193,9 @@ const CompanionComponent: React.FC<CompanionComponentProps> = ({
               callStatus === CallStatus.ACTIVE ? "bg-red-700" : "bg-primary",
               callStatus === CallStatus.CONNECTING && "animate-pulse",
             )}
-            onClick={callStatus === CallStatus.ACTIVE ? handleDisconnect : handleCall}
+            onClick={
+              callStatus === CallStatus.ACTIVE ? handleDisconnect : handleCall
+            }
           >
             {callStatusText}
           </button>
@@ -196,14 +204,22 @@ const CompanionComponent: React.FC<CompanionComponentProps> = ({
       <section className="transcript">
         <div className="transcript-message no-scrollbar">
           {messages.map((message, idx) => {
-            if (message.role === 'assistant') {
-              return (<p key={idx} className="max-sm:text-sm">{name.split(' ')[0].replace('/[.,]/g', '')}: {message.content}</p>)
+            if (message.role === "assistant") {
+              return (
+                <p key={idx} className="max-sm:text-sm">
+                  {name.split(" ")[0].replace("/[.,]/g", "")}: {message.content}
+                </p>
+              );
             } else {
-              return <p key={idx} className="text-primary max-sm:text-sm">{userName}: {message.content}</p>
+              return (
+                <p key={idx} className="text-primary max-sm:text-sm">
+                  {userName}: {message.content}
+                </p>
+              );
             }
           })}
         </div>
-        <div className="transcript-fade"/>
+        <div className="transcript-fade" />
       </section>
     </section>
   );
